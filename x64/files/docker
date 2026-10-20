@@ -126,7 +126,7 @@ RUN \
     --mandir=/usr/share/man \
     --prefix=/usr \
     --python=python3 \
-    --enable-vue_cache \
+    --disable-vue_cache \
     --enable-vue_build \
     --sysconfdir=/config && \
  echo "**** compile tvheadend ****" && \
