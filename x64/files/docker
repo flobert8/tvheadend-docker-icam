@@ -54,6 +54,8 @@ RUN \
     uriparser-dev \
     x264-dev \
     x265-dev \
+    nodejs \
+    npm \
     zlib-dev
 
 RUN \
@@ -124,6 +126,8 @@ RUN \
     --mandir=/usr/share/man \
     --prefix=/usr \
     --python=python3 \
+    --enable-vue_cache \
+    --enable-vue_build \
     --sysconfdir=/config && \
  echo "**** compile tvheadend ****" && \
  make -j 2 && \
