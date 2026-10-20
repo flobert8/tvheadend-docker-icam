@@ -18,21 +18,54 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Prepare Docker build context
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git clone --depth 1 \
+            https://github.com/linuxserver/docker-tvheadend.git \
+            docker-tvheadend
+
+          mkdir -p docker-tvheadend/patches/argtable
+          mkdir -p docker-tvheadend/patches/libdvbcsa
+
+          mv docker-tvheadend/patches/config.guess \
+            docker-tvheadend/patches/argtable/
+
+          mv docker-tvheadend/patches/config.sub \
+            docker-tvheadend/patches/argtable/
+
+          cp x64/files/libdvbcsa.patch \
+            docker-tvheadend/patches/libdvbcsa/
+
+          cp x64/files/10-adduser \
+            docker-tvheadend/
+
+          cp x64/files/metric_heartbeat.sh \
+            docker-tvheadend/
+
+          cp x64/files/docker \
+            docker-tvheadend/Dockerfile
+
+          test -d docker-tvheadend/root
+          test -f docker-tvheadend/Dockerfile
+
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Login to GitHub Container Registry
+      - name: Login to GHCR
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push TVHeadend
+      - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: ./x64
-          file: ./x64/files/docker
+          context: ./docker-tvheadend
+          file: ./docker-tvheadend/Dockerfile
           platforms: linux/amd64
           push: true
           tags: ghcr.io/${{ github.repository }}:vue

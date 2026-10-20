@@ -235,10 +235,10 @@ RUN rm -rf /usr/bin/tv_grab_file && wget https://raw.githubusercontent.com/b-jes
 
 RUN rm -rf /etc/cont-init.d/10-adduser
 
-ADD files/10-adduser /etc/cont-init.d/10-adduser
+ADD 10-adduser /etc/cont-init.d/10-adduser
 RUN chmod +x /etc/cont-init.d/10-adduser
 
-ADD files/metric_heartbeat.sh /usr/bin/metric_heartbeat.sh
+ADD metric_heartbeat.sh /usr/bin/metric_heartbeat.sh
 RUN chmod +x /usr/bin/metric_heartbeat.sh
 
 
