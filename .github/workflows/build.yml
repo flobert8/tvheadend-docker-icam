@@ -31,7 +31,7 @@ jobs:
       - name: Build and push TVHeadend
         uses: docker/build-push-action@v6
         with:
-          context: ./x64/files
+          context: ./x64
           file: ./x64/files/docker
           platforms: linux/amd64
           push: true
